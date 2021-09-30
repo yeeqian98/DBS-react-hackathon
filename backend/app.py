@@ -4,6 +4,7 @@ from flask import Flask, render_template, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, LoginManager
+import json
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
@@ -69,9 +70,10 @@ class Category(db.Model):
 @app.route("/api/login", methods=['POST'])
 def login():
     if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-        
+        username = json.loads(request.data)['username']
+        password =json.loads(request.data)['password']
+        print(json.loads(request.data)['username'])
+        print(password)
         user = User.query.filter_by(username = username).first()
         print(check_password_hash(user.password, password))
         if user:
