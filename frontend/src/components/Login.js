@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { Card, Button, Form } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
 
 class Login extends React.Component {
 
@@ -33,6 +34,7 @@ class Login extends React.Component {
     }
 
     handleSubmit = (event) => {
+        this.props.history.push('/');
         // not sure if it will work yet
         // var url = "http://127.0.0.1:XXX/xxx";
         // fetch(url, {
@@ -99,4 +101,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default withRouter(Login);
