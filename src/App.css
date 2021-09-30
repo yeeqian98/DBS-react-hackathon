@@ -1,3 +1,12 @@
+.bg-myRed{
+  background-color: crimson;
+}
+
+.content{
+  padding: 12px;
+  height: 3000px;
+}
+
 .App {
   text-align: center;
 }
@@ -35,4 +44,28 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.products {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.products img {
+  width: 100%;
+}
+
+.product {
+  padding: 40px;
+}
+
+button {
+  font-size: 20px;
+  padding: 10px;
+}
+
+header {
+  background-color: red;
+  height: 70px;
+  padding-top: 20px;
 }
