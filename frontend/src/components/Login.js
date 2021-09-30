@@ -34,28 +34,30 @@ class Login extends React.Component {
     }
 
     handleSubmit = (event) => {
-        this.props.history.push('/');
-        // not sure if it will work yet
-        // var url = "http://127.0.0.1:XXX/xxx";
-        // fetch(url, {
-		// 	method: "POST",
-		// 	body: JSON.stringify({
-		// 		username: this.state.username,
-		// 		password: this.state.password,
-		// 	}),
-		// })
-		// 	.then((response) => response.json())
-		// 	.then((data) => {
-		// 		window.sessionStorage.setItem("username", data['username']);
-		// 		console.log(data);
-		// 		this.props.history.push('/');
-		// 	})
-        //     .catch((error) => {
-        //         this.setState((prevState) => ({
-        //             ... prevState,
-        //             error: error
-        //         }))
-        //     });
+        console.log(this.state.username);
+        console.log(this.state.password);
+        fetch('/api/login', {
+			method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+			body: JSON.stringify({
+				username: this.state.username,
+				password: this.state.password,
+			}),
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				// window.sessionStorage.setItem("username", data['username']);
+				console.log(data);
+				this.props.history.push('/');
+			})
+            .catch((error) => {
+                this.setState((prevState) => ({
+                    ... prevState,
+                    error: error
+                }))
+            });
     }
 
     render() {
