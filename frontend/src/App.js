@@ -9,6 +9,7 @@ import CreditCard from './components/CreditCard';
 import Promo from './components/Promo';
 import About from './components/Product';
 import CustomersPage from './components/CustomersPage';
+import Login from './components/Login';
 
 
 const App = () => {
@@ -53,6 +54,9 @@ const App = () => {
           </Route>
           <Route exact path = "/product">
             <About />
+          </Route>
+          <Route exact path = "/login">
+            <Login />
           </Route>
         </Switch>
       </div>
