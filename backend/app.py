@@ -110,5 +110,29 @@ def product(productid):
     return jsonify(json_list = [i.serialize for i in data])
 
 
+@app.route("/api/checkout" ,methods=['POST'])
+def checkout():
+    products = json.loads(request.data)
+    quantity = json.loads(request.data)
+
+    print(products['products'])
+
+    for x in products['products']:
+        productid = x['productid']
+        quantity = x['quantity']
+
+        product = Product.query.filter_by(id=productid).all()
+        pQty = product[0].qty
+        finalPQty = pQty - quantity
+        product[0].qty = finalPQty
+        db.session.commit()
+
+    return {
+        'statusCode': 200,
+        'message': 'Quantity Updated Succesfully'
+    }
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
