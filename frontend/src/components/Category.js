@@ -1,6 +1,13 @@
 import React from "react";
+import { useHistory } from "react-router";
 
 export function Category() {
+    const history = useHistory();
+
+    if (window.sessionStorage.getItem('username') == null) {
+        history.push('/login');
+    }
+    
     const category_list = [      
         {
             "id": 1,
@@ -30,9 +37,18 @@ export function Category() {
     ]
 
     let itemList = category_list.map(item=>{
+        var name = '';
+        if (item.name == "Men's clothing") {
+            name = "Men Clothing";
+        } else if (item.name == "Women's clothing") {
+            name = "Women Clothing";
+        } else {
+            name = item.name;
+        }
+        var ref = `/product/${name}`;
         return(
             <div className="card" key={item.id}>
-                <a href="/product" style={{textDecoration: "none", textDecorationColor: "black"}}>
+                <a href={ref} style={{textDecoration: "none", textDecorationColor: "black"}}>
                     <span class="link"></span>
                 </a>
                     <div className="card-image">
@@ -52,6 +68,14 @@ export function Category() {
                 <h5 style={{color: "white"}}>Category</h5>
             </header>
             <div className="box">
+                <div className="card" style={{width: "100%"}}>
+                    <a href="/product" style={{textDecoration: "none", textDecorationColor: "black"}}>
+                        <span class="link"></span>
+                    </a>
+                        <div className="card-image">
+                            <span className="card-title">All Categories</span>  
+                        </div>      
+                </div>
                 {itemList}
             </div>
         </div>
