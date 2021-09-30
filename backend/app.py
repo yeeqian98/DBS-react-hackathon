@@ -6,14 +6,14 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 
 db = SQLAlchemy(app) 
 
-class User(db.Model):
+class Customers(db.Model):
     id = db.Column(db.Integer, primary_key = True) 
     username = db.Column(db.String(20), unique=True, nullable=False) 
     password = db.Column(db.String(60), nullable=False)
     first_name = db.Column(db.String(20))
     last_name = db.Column(db.String(20))
     postal_code = db.Column(db.Integer)
-    gender = db.Column(db.String(6))
+    gender = db.Column(db.String(20))
     created_at = db.Column(db.DateTime)
 
     def __repr__(self):
