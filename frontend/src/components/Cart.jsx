@@ -3,7 +3,7 @@ import React from 'react';
 export default function Cart({ cart, setCart }) {
   const getTotalSum = () => {
     return cart.reduce(
-      (sum, { cost, quantity }) => sum + cost * quantity,
+      (sum, { price, qty }) => sum + price * qty,
       0
     );
   };
@@ -16,7 +16,7 @@ export default function Cart({ cart, setCart }) {
     const newCart = [...cart];
     newCart.find(
       (item) => item.name === product.name
-    ).quantity = amount;
+    ).qty = amount;
     setCart(newCart);
   };
 
@@ -26,19 +26,24 @@ export default function Cart({ cart, setCart }) {
     );
   };
 
+  const productStyle = {
+    width:"60%"
+  }
+
   return (
     <>
       <h1>Cart</h1>
       {cart.length > 0 && (
         <button onClick={clearCart}>Clear Cart</button>
       )}
-      <div className="products">
+      <div className="products" style={productStyle}>
         {cart.map((product, idx) => (
           <div className="product" key={idx}>
             <h3>{product.name}</h3>
-            <h4>${product.cost}</h4>
+            <h4>Price: ${product.price}</h4>
+            <h4>Quantity: 
             <input
-              value={product.quantity}
+              value={product.qty}
               onChange={(e) =>
                 setQuantity(
                   product,
@@ -46,6 +51,7 @@ export default function Cart({ cart, setCart }) {
                 )
               }
             />
+            </h4>
             <img src={product.image} alt={product.name} />
             <button onClick={() => removeFromCart(product)}>
               Remove

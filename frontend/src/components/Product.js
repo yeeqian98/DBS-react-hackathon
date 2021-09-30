@@ -16,7 +16,7 @@ function Product() {
   
     const getCartTotal = () => {
       return cart.reduce(
-        (sum, { quantity }) => sum + quantity,
+        (sum, { qty }) => sum + qty,
         0
       );
     };
