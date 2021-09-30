@@ -74,15 +74,16 @@ def login():
         
         user = User.query.filter_by(username = username).first()
         print(check_password_hash(user.password, password))
-        if user.username == username and user.password == password:
-            return{
-                'statusCode': 200,
-                'message' : username
-            }
-        else :
+        if user:
+            if user.username == username and user.password == password:
+                return{
+                    'statusCode': 200,
+                    'message' : username
+                }
+        else:
             return{
                 'statusCode': 500,
-                'message' : 'Invalid username / password'
+                'message' : 'Invalid username/password'
             }
 
         
