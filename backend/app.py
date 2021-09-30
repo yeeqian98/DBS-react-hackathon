@@ -71,11 +71,19 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
+        
         user = User.query.filter_by(username = username).first()
-        if user or check_password_hash(user.password, password):
+        print(check_password_hash(user.password, password))
+        if user:
+            if user.username == username and user.password == password:
+                return{
+                    'statusCode': 200,
+                    'message' : username
+                }
+        else:
             return{
-                'statusCode': 200,
-                'message' : username
+                'statusCode': 500,
+                'message' : 'Invalid username/password'
             }
 
         
