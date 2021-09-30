@@ -71,11 +71,9 @@ class Category(db.Model):
 def login():
     if request.method == 'POST':
         username = json.loads(request.data)['username']
-        password =json.loads(request.data)['password']
-        print(json.loads(request.data)['username'])
-        print(password)
+        password = json.loads(request.data)['password']
+
         user = User.query.filter_by(username = username).first()
-        print(check_password_hash(user.password, password))
         if user:
             if user.username == username and user.password == password:
                 return{
