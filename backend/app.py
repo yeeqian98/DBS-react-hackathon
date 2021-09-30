@@ -21,11 +21,11 @@ class Customers(db.Model):
 
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key = True) 
-    title = db.Column(db.String(20))
+    title = db.Column(db.String(120))
     price = db.Column(db.Integer)
-    description = db.Column(db.String(20))
-    category_id = db.Column(db.String(20))
-    image = db.Column(db.String(20))
+    description = db.Column(db.String(120))
+    category_id = db.Column(db.String(120))
+    image = db.Column(db.String(120))
     qty = db.Column(db.Integer)
 
     @property
@@ -55,7 +55,7 @@ class Category(db.Model):
             'image': self.image,
         }    
 
-@app.route("/api/members")
+@app.route("/api/members",methods=['GET', 'POST'])
 def members():
     return {'members': ["1","2","3"]}
 
@@ -65,11 +65,18 @@ def members():
 #     pass
 #     return render_template('index.html')
 
-@app.route("/api/home")
-def home():
+@app.route("/api/products",methods=['GET'])
+def products():
     data = Product.query.all()
 
     return jsonify(json_list = [i.serialize for i in data])
+
+@app.route("/api/products/<int:productid>",methods=['GET'])
+def product(productid):
+    data = Product.query.filter_by(id=productid).all()
+
+    return jsonify(json_list = [i.serialize for i in data])
+
 
 if __name__ == '__main__':
     app.run(debug=True)
