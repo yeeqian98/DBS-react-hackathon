@@ -15,6 +15,10 @@ class User(db.Model):
     def __repr__(self):
         return f"User('{self.username}', '{self.email}')"
 
+# class 
+
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
