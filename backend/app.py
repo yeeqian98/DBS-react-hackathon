@@ -109,6 +109,13 @@ def product(productid):
 
     return jsonify(json_list = [i.serialize for i in data])
 
+@app.route("/api/category/<string:category>",methods=['GET'])
+def category(category):
+    catdata = Category.query.filter_by(name=category).first()
+    data = Product.query.filter_by(category_id=catdata.id).all()
+
+    return jsonify(json_list = [i.serialize for i in data])
+
 
 if __name__ == '__main__':
     app.run(debug=True)
