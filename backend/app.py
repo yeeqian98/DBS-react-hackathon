@@ -115,8 +115,6 @@ def checkout():
     products = json.loads(request.data)
     quantity = json.loads(request.data)
 
-    print(products['products'])
-
     for x in products['products']:
         productid = x['productid']
         quantity = x['quantity']
