@@ -10,7 +10,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 
 db = SQLAlchemy(app)
 
-class Customers(db.Model):
+class User(db.Model):
     id = db.Column(db.Integer, primary_key = True) 
     username = db.Column(db.String(20), unique=True, nullable=False) 
     password = db.Column(db.String(60), nullable=False)
@@ -66,27 +66,19 @@ class Category(db.Model):
             'image': self.image,
         }    
 
-@app.route("/api/members")
-def members():
-    return {'members': ["1","2","3"]}
-
-@auth.route("/api/login", methods=['POST'])
+@app.route("/api/login", methods=['POST'])
 def login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
         user = User.query.filter_by(username = username).first()
-        if not user or not check_password_hash(user.password, password):
+        if user or check_password_hash(user.password, password):
             return{
-                'statusCode': 400,
-                'message' : 'Invalid Login'
-            }
-
-        login_user(user)
-        return{
                 'statusCode': 200,
                 'message' : username
             }
+
+        
 @app.route("/api/members",methods=['GET', 'POST'])
 def members():
     return {'members': ["1","2","3"]}
