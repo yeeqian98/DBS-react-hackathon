@@ -48,9 +48,17 @@ class Login extends React.Component {
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				// window.sessionStorage.setItem("username", data['username']);
-				console.log(data);
-				this.props.history.push('/');
+				console.log(data['statusCode']);
+                if (data['statusCode'] == 200) {
+                    console.log("here");
+                    window.sessionStorage.setItem("username", data['username']);
+				    this.props.history.push('/');
+                } else {
+                    this.setState((prevState) => ({
+                        ... prevState,
+                        error: data['message']
+                    }));
+                }
 			})
             .catch((error) => {
                 this.setState((prevState) => ({

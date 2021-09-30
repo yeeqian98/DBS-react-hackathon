@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router';
 
 const ELECTRONICS = 'Electronics';
 const JEWELERY = 'Jewelery';
@@ -46,6 +47,15 @@ export default function Products({ setCart, cart }) {
   };
 
   const [category, setCategory] = useState(ELECTRONICS);
+
+  const location = useLocation().pathname;
+
+  useEffect(() => {
+    let path = location.split('/');
+    if (path.length == 3) {
+      setCategory(path[2]);
+    }
+  },[]);
 
   const getProductsInCategory = () => {
     return products.filter(
