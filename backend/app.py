@@ -1,10 +1,13 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import current_user, login_user, LoginManager
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 
-db = SQLAlchemy(app) 
+db = SQLAlchemy(app)
+login_manager = LoginManager()
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key = True) 
@@ -17,7 +20,14 @@ class User(db.Model):
     created_at = db.Column(db.DateTime)
 
     def __repr__(self):
-        return f"User('{self.username}', '{self.email}')"
+        return f"User('{self.username}')"
+
+    def check_password(self, password):
+        """Check hashed password."""
+        return check_password_hash(self.password, password)
+
+    def set_password(self,password):
+        self.password = generate_password_hash(password)
 
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key = True) 
@@ -35,18 +45,24 @@ class Category(db.Model):
     image = db.Column(db.String(20))
 
 
-
-# @app.route('/', methods=['GET', 'POST'])
-# def index():
-#     pass
-#     pass
-#     return render_template('index.html')
-
 @app.route("/api/members")
 def members():
     return {'members': ["1","2","3"]}
 
-# @app.route*"/api/login")
+@app.route("/api/login", methods=['POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect('/home')
+
+    if request.method == 'POST':
+        username = request.form['username']
+        user = UserModel.query.filter_by(username = username).first()
+        if user is not None and user.check_password(request.form['password']):
+            login_user(user)
+            return {
+                'statusCode': 200,
+                'username' : username
+            }
 
 if __name__ == '__main__':
     app.run(debug=True)
