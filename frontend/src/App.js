@@ -9,6 +9,8 @@ import CreditCard from './components/CreditCard';
 import Promo from './components/Promo';
 import About from './components/Product';
 import CustomersPage from './components/CustomersPage';
+import Login from './components/Login';
+import { Category } from './components/Category';
 
 
 const App = () => {
@@ -37,7 +39,7 @@ const App = () => {
       <div className="content">
         <Switch>
           <Route exact path="/">
-            <Home />
+            <Category />
           </Route>
           <Route exact path="/insurance">
             <Insurance />
@@ -53,6 +55,12 @@ const App = () => {
           </Route>
           <Route exact path = "/product">
             <About />
+          </Route>
+          <Route exact path = "/login">
+            <Login />
+          </Route>
+          <Route path= "/category">
+            <Category/>
           </Route>
         </Switch>
       </div>
