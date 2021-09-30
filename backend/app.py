@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -28,13 +28,36 @@ class Product(db.Model):
     image = db.Column(db.String(20))
     qty = db.Column(db.Integer)
 
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'price': self.price,
+            'description': self.description,
+            'category_id': self.category_id,
+            'image': self.image,
+            'qty': self.qty
+        }
+
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key = True) 
     name = db.Column(db.String(20))
     description = db.Column(db.String(20))
     image = db.Column(db.String(20))
 
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'image': self.image,
+        }    
 
+@app.route("/api/members")
+def members():
+    return {'members': ["1","2","3"]}
 
 # @app.route('/', methods=['GET', 'POST'])
 # def index():
@@ -42,11 +65,11 @@ class Category(db.Model):
 #     pass
 #     return render_template('index.html')
 
-@app.route("/api/members")
-def members():
-    return {'members': ["1","2","3"]}
+@app.route("/api/home")
+def home():
+    data = Product.query.all()
 
-# @app.route*"/api/login")
+    return jsonify(json_list = [i.serialize for i in data])
 
 if __name__ == '__main__':
     app.run(debug=True)
